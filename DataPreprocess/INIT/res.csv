@@ -1,0 +1,6 @@
+,path_count,path_length,path_length,path_length,frequency,frequency,frequency
+,count,mean,max,min,mean,max,min
+algorithm,,,,,,,
+NDTTJ,17310,1.9642980935875216,2,1,4.952050837666089,590,2
+NDTTT,6544,5.00687652811736,24,2,3.3632334963325183,37,2
+TTHS,2041,5.172954434100931,17,2,2.5100440960313573,22,2
