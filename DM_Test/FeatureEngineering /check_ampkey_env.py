@@ -1,7 +1,7 @@
 import requests
 
 # === 高德 API Key（web服务，不是web端!）===
-API_KEY = "f42b873a7e989037c352d85725d6fdfa"
+API_KEY = "your apikey"
 
 # === 测试坐标（WGS84 经纬度格式）===
 test_coord = "23.845098,38.018473"

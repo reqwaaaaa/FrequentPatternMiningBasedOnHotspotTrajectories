@@ -6,7 +6,7 @@ from tqdm import tqdm
 from pyproj import Transformer
 
 # === 配置 ===
-API_KEY = "f42b873a7e989037c352d85725d6fdfa"
+API_KEY = "your api key"
 INPUT_CSV = "nodes.csv"
 OUTPUT_CSV = "nodes_with_poi.csv"
 CACHE_FILE = "poi_cache_nodes.csv"

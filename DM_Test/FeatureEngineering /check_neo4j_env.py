@@ -3,7 +3,7 @@ from neo4j import GraphDatabase
 # 请自行修改为你自己的密码
 uri = "bolt://localhost:7687"
 user = "neo4j"
-password = "#020728Ceq" 
+password = "your neo4j password"
 
 driver = GraphDatabase.driver(uri, auth=(user, password))
 
