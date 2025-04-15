@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from glob import glob
 from tqdm import tqdm
+from datetime import datetime, timedelta
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.abspath(os.path.join(base_dir, '..'))
@@ -19,12 +20,9 @@ for user in user_dirs:
         plt_files = glob(os.path.join(traj_dir, '*.plt'))
         user_traj_counts.append((user, len(plt_files)))
 
-# 按轨迹数量排序，选取中等数量段
-user_traj_counts.sort(key=lambda x: x[1])  # 升序
-mid_users = user_traj_counts[66:77]
-selected_users = [user for user, _ in mid_users]
+# 选取轨迹数量适中的用户（70~120）
+selected_users = [user for user, cnt in user_traj_counts if 70 <= cnt <= 120]
 
-# 提取轨迹数据
 all_records = []
 
 for user in tqdm(selected_users, desc="处理用户"):
@@ -34,6 +32,8 @@ for user in tqdm(selected_users, desc="处理用户"):
     for traj_id, file_path in enumerate(plt_files, start=1):
         with open(file_path, 'r') as f:
             lines = f.readlines()[6:]  # 跳过前6行 header
+
+        last_time = None
         for line in lines:
             parts = line.strip().split(',')
             if len(parts) >= 7:
@@ -41,8 +41,12 @@ for user in tqdm(selected_users, desc="处理用户"):
                 lon = float(parts[1])
                 date = parts[5]
                 time = parts[6]
-                timestamp = f"{date} {time}"
-                all_records.append([user, traj_id, timestamp, lon, lat])
+                timestamp = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M:%S")
+
+                # 每隔一刻钟取一个点
+                if last_time is None or (timestamp - last_time) >= timedelta(minutes=15):
+                    all_records.append([user, traj_id, timestamp.strftime('%Y-%m-%d %H:%M:%S'), lon, lat])
+                    last_time = timestamp
 
 columns = ['uid', 'traj_id', 't', 'x', 'y']
 df = pd.DataFrame(all_records, columns=columns)
